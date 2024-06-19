@@ -65,13 +65,21 @@ volumes: []
 # Volumes to mount onto the pod.
 volumeMounts: []
 
-# Existing secret where values to connect to Postgres are defined.
-# If not set a new secret will be created, filled with information under the postgres key above.
-existingSecret: ""
+# # Existing secret where values to connect to Postgres are defined.
+# # If not set a new secret will be created, filled with information under the postgres key above.
+# existingSecret: ""
 
-# Additionnal environment variables to add to the pod (map of key / value)
-env: {}
+# # Additionnal environment variables to add to the pod (map of key / value)
+# env: {}
 
 nodeSelector: {}
 
 tolerations: []
+
+
+existingSecret: "ext-postgres-operator"
+env:
+  POSTGRES_INSTANCE: "mm-le-stage"
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: '-4'
+watchNamespace: ""

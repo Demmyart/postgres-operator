@@ -4,6 +4,11 @@ metadata:
   name: {{ include "chart.fullname" . }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
+    {{- include "istioDisabledAnnotations" . | nindent 4 }}
+  {{- if $.Values.commonAnnotations }}
+  annotations:
+    {{- toYaml $.Values.commonAnnotations | nindent 4 }}
+  {{- end }}
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -42,7 +47,7 @@ spec:
                 {{- end }}
           env:
             - name: WATCH_NAMESPACE
-              value: {{ .Values.watchNamespace | default "" }}
+              value: {{ .Values.watchNamespace | default .Release.Namespace }}
             - name: POD_NAME
               valueFrom:
                 fieldRef:

@@ -1,9 +1,13 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "chart.fullname" . }}
+  name: {{ include "chart.fullname" . }}-{{ .Release.Namespace }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
+  {{- if $.Values.commonAnnotations }}
+  annotations:
+    {{- toYaml $.Values.commonAnnotations | nindent 4 }}
+  {{- end }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "chart.serviceAccountName" . }}
